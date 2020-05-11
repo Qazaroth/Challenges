@@ -2,7 +2,7 @@ from urllib.request import urlopen
 import random
 from datetime import datetime
 
-wordListSrc = "https://raw.githubusercontent.com/TTT2866/Batch-username-generator/master/wordlist.txt"
+wordListSrc = "https://raw.githubusercontent.com/dwyl/english-words/master/words.txt" #"https://raw.githubusercontent.com/TTT2866/Batch-username-generator/master/wordlist.txt"
 wordListTemp = urlopen(wordListSrc)
 wordList = wordListTemp.read().__str__()
 
