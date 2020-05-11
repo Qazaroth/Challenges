@@ -1,11 +1,9 @@
 import random
 from datetime import datetime
-
-# Still work in progress.
-
-# 0 | 1 | 2
-# 3 | 4 | 5
-# 6 | 7 | 8
+#    x0  x1  x2
+# y0 0 | 1 | 2
+# y1 3 | 4 | 5
+# y2 6 | 7 | 8
 
 gameEnded = False
 winner = None
@@ -15,7 +13,6 @@ gameData = [
     [-1, -1, -1],
     [-1, -1, -1]
 ]
-
 freeSpace = gameData
 
 
@@ -49,6 +46,120 @@ def draw():
     print(out)
 
 
+def checkHorizontalWin(y, x, winChar):
+    if x == 0:
+        if gameData[y][x] == winChar and gameData[y][x+1] == winChar and gameData[y][x+2] == winChar:
+            return True
+        else:
+            return False
+    elif x == 1:
+        if gameData[y][x-1] == winChar and gameData[y][x] == winChar and gameData[y][x+1] == winChar:
+            return True
+        else:
+            return False
+    elif x == 2:
+        if gameData[y][x-2] == winChar and gameData[y][x-1] == winChar and gameData[y][x] == winChar:
+            return True
+        else:
+            return False
+
+
+def checkDiagonalWin(y, x, winChar):
+    if x == 0:
+        if y == 0:
+            if gameData[y][x] == winChar and gameData[y+1][x+1] == winChar and gameData[y+2][x+2] == winChar:
+                return True
+            else:
+                return False
+        elif y == 2:
+            if gameData[y][x] == winChar and gameData[y-1][x+1] == winChar and gameData[y-2][x-2] == winChar:
+                return True
+            else:
+                return False
+    elif x == 1:
+        if y == 1:
+            if gameData[y-1][x-1] == winChar and gameData[y][x] == winChar and gameData[y+1][x+1] == winChar:
+                return True
+            elif gameData[y+1][x-1] == winChar and gameData[y][x] == winChar and gameData[y-1][x+1] == winChar:
+                return True
+            else:
+                return False
+    elif x == 2:
+        if y == 0:
+            if gameData[y][x] == winChar and gameData[y+1][x-1] == winChar and gameData[y+2][x-2] == winChar:
+                return True
+            else:
+                return False
+        elif y == 2:
+            if gameData[y][x] == winChar and gameData[y-1][x-1] == winChar and gameData[y-2][x-2] == winChar:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+
+def checkVerticalWin(y, x, winChar):
+    if x == 0:
+        if y == 0:
+            if gameData[y][x] == winChar and gameData[y+1][x] == winChar and gameData[y+2][x] == winChar:
+                return True
+            else:
+                return False
+        elif y == 1:
+            if gameData[y-1][x] == winChar and gameData[y][x] == winChar and gameData[y+1][x] == winChar:
+                return True
+            else:
+                return False
+        elif y == 2:
+            if gameData[y - 2][x] == winChar and gameData[y - 1][x] == winChar and gameData[y][x] == winChar:
+                return True
+            else:
+                return False
+        else:
+            return False
+    elif x == 1:
+        if y == 0:
+            if gameData[y][x] == winChar and gameData[y + 1][x] == winChar and gameData[y + 2][x] == winChar:
+                return True
+            else:
+                return False
+        elif y == 1:
+            if gameData[y - 1][x] == winChar and gameData[y][x] == winChar and gameData[y + 1][x] == winChar:
+                return True
+            else:
+                return False
+        elif y == 2:
+            if gameData[y - 2][x] == winChar and gameData[y - 1][x] == winChar and gameData[y][x] == winChar:
+                return True
+            else:
+                return False
+        else:
+            return False
+    elif x == 2:
+        if y == 0:
+            if gameData[y][x] == winChar and gameData[y + 1][x] == winChar and gameData[y + 2][x] == winChar:
+                return True
+            else:
+                return False
+        elif y == 1:
+            if gameData[y - 1][x] == winChar and gameData[y][x] == winChar and gameData[y + 1][x] == winChar:
+                return True
+            else:
+                return False
+        elif y == 2:
+            if gameData[y - 2][x] == winChar and gameData[y - 1][x] == winChar and gameData[y][x] == winChar:
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+
 def won(char):
     tempWinner = "¯\\_(ツ)_/¯"
     # Check for horizontal wins
@@ -58,48 +169,15 @@ def won(char):
             # y1, x0 | y1, x1 | y0, x2
             # y2, x0 | y2, x1 | y2, x2
 
-            if x == 0 and y == 0:
-                if gameData[y][x] == char and gameData[y][x + 1] == char and gameData[y][x + 2] == char:
-                    if char == 1:
-                        tempWinner = "Player"
-                    elif char == 0:
-                        tempWinner = "\"AI\""
-                    else:
-                        tempWinner = "¯\\_(ツ)_/¯"
-                    break
-                elif gameData[y][x] == char and gameData[y + 1][x] == char and gameData[y][x + 2] == char:
-                    if char == 1:
-                        tempWinner = "Player"
-                    elif char == 0:
-                        tempWinner = "\"AI\""
-                    else:
-                        tempWinner = "¯\\_(ツ)_/¯"
-                    break
-                elif gameData[y][x] == char and gameData[y + 1][x + 1] == char and gameData[y + 2][x + 2] == char:
-                    if char == 1:
-                        tempWinner = "Player"
-                    elif char == 0:
-                        tempWinner = "\"AI\""
-                    else:
-                        tempWinner = "¯\\_(ツ)_/¯"
-                    break
-            elif x == 1 and y == 0:
-                if gameData[y][x - 1] == char and gameData[y][x] == char and gameData[y][x + 1] == char:
-                    if char == 1:
-                        tempWinner = "Player"
-                    elif char == 0:
-                        tempWinner = "\"AI\""
-                    else:
-                        tempWinner = "¯\\_(ツ)_/¯"
-                    break
-                elif gameData[y][x] == char and gameData[y + 1][x] == char and gameData[y + 2][x] == char:
-                    if char == 1:
-                        tempWinner = "Player"
-                    elif char == 0:
-                        tempWinner = "\"AI\""
-                    else:
-                        tempWinner = "¯\\_(ツ)_/¯"
-                    break
+            if checkDiagonalWin(y, x, char) or checkVerticalWin(y, x, char) or checkHorizontalWin(y, x, char):
+                if char == 1:
+                    tempWinner = "Player"
+                elif char == 0:
+                    tempWinner = "\"AI\""
+                else:
+                    tempWinner = "¯\\_(ツ)_/¯"
+                break
+
     if tempWinner == "¯\\_(ツ)_/¯":
         return "-1.{p}".format(p=tempWinner)
     else:
